@@ -1,0 +1,25 @@
+{
+    "name": "reecms/theme",
+    "description": "The Laravel 5 theming system for ReeCMS",
+    "keywords": ["reecms", "theme", "laravel"],
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "Hieu Le",
+            "email": "letrunghieu.cse09@gmail.com"
+        }
+    ],
+    "require": {
+        "illuminate/view": "^5.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Ree\\Theme\\": "src/"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
