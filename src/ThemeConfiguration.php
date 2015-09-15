@@ -2,7 +2,6 @@
 
 namespace Ree\Theme;
 
-use Illuminate\Contracts\Config\Repository;
 use Ree\Theme\Contracts\ThemeConfiguration as ThemeConfigurationContract;
 
 /**
@@ -35,6 +34,13 @@ class ThemeConfiguration implements ThemeConfigurationContract
     protected $basePublicDir;
 
     /**
+     * The name of the current theme
+     *
+     * @var string
+     */
+    protected $theme;
+
+    /**
      * You have the supply three paths when initialize the theme configuration
      * object:
      * 
@@ -48,33 +54,60 @@ class ThemeConfiguration implements ThemeConfigurationContract
      */
     function __construct($baseViewDir, $baseAssetDir, $basePublicDir)
     {
-        $this->baseViewDir   = $baseViewDir;
-        $this->baseAssetDir  = $baseAssetDir;
-        $this->basePublicDir = $basePublicDir;
+        $this->baseViewDir   = rtrim($baseViewDir, "/") . "/";
+        $this->baseAssetDir  = rtrim($baseAssetDir, "/") . "/";
+        $this->basePublicDir = rtrim($basePublicDir, "/") . "/";
     }
 
-    public function getThemeAssetDir()
-    {
-        
-    }
-
-    public function getThemeName()
-    {
-        
-    }
-
-    public function getThemePublicDir()
-    {
-        
-    }
-
-    public function getThemeViewDir()
-    {
-        
-    }
-
+    /**
+     * Set the name of the current theme
+     * 
+     * @param string $name
+     * @return \Ree\Theme\ThemeConfiguration
+     */
     public function setThemeName($name)
     {
-        
+        $this->theme = $name;
+        return $this;
+    }
+
+    /**
+     * Get the name of the current theme
+     * 
+     * @return string
+     */
+    public function getThemeName()
+    {
+        return $this->theme;
+    }
+
+    /**
+     * Get the path to the directory contains theme asset files
+     * 
+     * @return string
+     */
+    public function getThemeAssetDir()
+    {
+        return $this->baseAssetDir . $this->theme;
+    }
+
+    /**
+     * Get the path to the directory contains theme compiled asset files
+     * 
+     * @return string
+     */
+    public function getThemePublicDir()
+    {
+        return $this->basePublicDir . $this->theme;
+    }
+
+    /**
+     * Get the path to the directory contains theme view files
+     * 
+     * @return string
+     */
+    public function getThemeViewDir()
+    {
+        return $this->baseViewDir . $this->theme;
     }
 }

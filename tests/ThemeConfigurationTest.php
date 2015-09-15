@@ -63,13 +63,13 @@ class ThemeConfigurationTest extends PHPUnit_Framework_TestCase
     {
         $config = new ThemeConfiguration('', '', '/public/assets/themes/');
         $config->setThemeName('default');
-        $this->assertEquals('/public/assets/themes/default', $config->getThemeAssetDir());
+        $this->assertEquals('/public/assets/themes/default', $config->getThemePublicDir());
     }
 
     public function testGetCorrectThemePublicDirNoSlash()
     {
         $config = new ThemeConfiguration('', '', '/public/assets/themes');
         $config->setThemeName('default');
-        $this->assertEquals('/public/assets/themes/default', $config->getThemeAssetDir());
+        $this->assertEquals('/public/assets/themes/default', $config->getThemePublicDir());
     }
 }
