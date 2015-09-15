@@ -20,6 +20,11 @@
             "Ree\\Theme\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "ReeTest\\Theme\\": "tests/"
+        }
+    },
     "minimum-stability": "dev",
     "prefer-stable": true
 }
