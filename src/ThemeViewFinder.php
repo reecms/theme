@@ -57,7 +57,7 @@ class ThemeViewFinder extends FileViewFinder
         if ($this->themeConfig->getThemeName()) {
             $dirs               = [
                 $this->themeConfig->getThemeViewDir(),
-                $this->themeConfig->getDefaultThemeViewDir()
+                $this->themeConfig->getThemeViewDir($this->themeConfig->getDefaultTheme()),
             ];
             return $this->views[$name] = $this->findInPaths($name, $dirs);
         }

@@ -148,36 +148,36 @@ class ThemeViewFinderTest extends \PHPUnit_Framework_TestCase
     public function testBasicViewFindingInTheme()
     {
         $finder = $this->getFinder();
-        $finder->getFilesystem()->shouldReceive('exists')->once()->with(__DIR__ . '/default/foo.blade.php')->andReturn(true);
-        $finder->getFilesystem()->shouldReceive('exists')->once()->with(__DIR__ . '/default/bar/foo.blade.php')->andReturn(true);
+        $finder->getFilesystem()->shouldReceive('exists')->once()->with(__DIR__ . '/default/views/foo.blade.php')->andReturn(true);
+        $finder->getFilesystem()->shouldReceive('exists')->once()->with(__DIR__ . '/default/views/bar/foo.blade.php')->andReturn(true);
 
         $finder->getThemeConfig()->setThemeName('default');
 
-        $this->assertEquals(__DIR__ . '/default/foo.blade.php', $finder->find('foo'));
-        $this->assertEquals(__DIR__ . '/default/bar/foo.blade.php', $finder->find('bar.foo'));
+        $this->assertEquals(__DIR__ . '/default/views/foo.blade.php', $finder->find('foo'));
+        $this->assertEquals(__DIR__ . '/default/views/bar/foo.blade.php', $finder->find('bar.foo'));
     }
 
     public function testCascadingFileLoadingInTheme()
     {
         $finder = $this->getFinder();
-        $finder->getFilesystem()->shouldReceive('exists')->once()->with(__DIR__ . '/default/foo.blade.php')->andReturn(false);
-        $finder->getFilesystem()->shouldReceive('exists')->once()->with(__DIR__ . '/default/foo.php')->andReturn(true);
+        $finder->getFilesystem()->shouldReceive('exists')->once()->with(__DIR__ . '/default/views/foo.blade.php')->andReturn(false);
+        $finder->getFilesystem()->shouldReceive('exists')->once()->with(__DIR__ . '/default/views/foo.php')->andReturn(true);
 
         $finder->getThemeConfig()->setThemeName('default');
 
-        $this->assertEquals(__DIR__ . '/default/foo.php', $finder->find('foo'));
+        $this->assertEquals(__DIR__ . '/default/views/foo.php', $finder->find('foo'));
     }
 
     public function testFallbackToDefaultViewLocation()
     {
         $finder = $this->getFinder();
-        $finder->getFilesystem()->shouldReceive('exists')->once()->with(__DIR__ . '/foo/foo.blade.php')->andReturn(false);
-        $finder->getFilesystem()->shouldReceive('exists')->once()->with(__DIR__ . '/foo/foo.php')->andReturn(false);
-        $finder->getFilesystem()->shouldReceive('exists')->once()->with(__DIR__ . '/default/foo.blade.php')->andReturn(true);
+        $finder->getFilesystem()->shouldReceive('exists')->once()->with(__DIR__ . '/foo/views/foo.blade.php')->andReturn(false);
+        $finder->getFilesystem()->shouldReceive('exists')->once()->with(__DIR__ . '/foo/views/foo.php')->andReturn(false);
+        $finder->getFilesystem()->shouldReceive('exists')->once()->with(__DIR__ . '/default/views/foo.blade.php')->andReturn(true);
 
         $finder->getThemeConfig()->setThemeName('foo');
 
-        $this->assertEquals(__DIR__ . '/default/foo.blade.php', $finder->find('foo'));
+        $this->assertEquals(__DIR__ . '/default/views/foo.blade.php', $finder->find('foo'));
     }
 
     /**
@@ -186,10 +186,10 @@ class ThemeViewFinderTest extends \PHPUnit_Framework_TestCase
     public function testViewNotFoundInTheme()
     {
         $finder = $this->getFinder();
-        $finder->getFilesystem()->shouldReceive('exists')->once()->with(__DIR__ . '/foo/foo.blade.php')->andReturn(false);
-        $finder->getFilesystem()->shouldReceive('exists')->once()->with(__DIR__ . '/foo/foo.php')->andReturn(false);
-        $finder->getFilesystem()->shouldReceive('exists')->once()->with(__DIR__ . '/default/foo.blade.php')->andReturn(false);
-        $finder->getFilesystem()->shouldReceive('exists')->once()->with(__DIR__ . '/default/foo.php')->andReturn(false);
+        $finder->getFilesystem()->shouldReceive('exists')->once()->with(__DIR__ . '/foo/views/foo.blade.php')->andReturn(false);
+        $finder->getFilesystem()->shouldReceive('exists')->once()->with(__DIR__ . '/foo/views/foo.php')->andReturn(false);
+        $finder->getFilesystem()->shouldReceive('exists')->once()->with(__DIR__ . '/default/views/foo.blade.php')->andReturn(false);
+        $finder->getFilesystem()->shouldReceive('exists')->once()->with(__DIR__ . '/default/views/foo.php')->andReturn(false);
 
         $finder->getThemeConfig()->setThemeName('foo');
 
@@ -199,16 +199,16 @@ class ThemeViewFinderTest extends \PHPUnit_Framework_TestCase
     public function testIgnoreDefaultDirIfThemeNameIsDefault()
     {
         $finder = $this->getFinder();
-        $finder->getFilesystem()->shouldReceive('exists')->once()->with(__DIR__ . '/default/foo.blade.php')->andReturn(true);
+        $finder->getFilesystem()->shouldReceive('exists')->once()->with(__DIR__ . '/default/views/foo.blade.php')->andReturn(true);
         
         $finder->getThemeConfig()->setThemeName('default');
 
-        $this->assertEquals(__DIR__ . '/default/foo.blade.php', $finder->find('foo'));
+        $this->assertEquals(__DIR__ . '/default/views/foo.blade.php', $finder->find('foo'));
     }
 
     protected function getFinder()
     {
-        $themeConfig = new ThemeConfiguration(__DIR__, '', '');
+        $themeConfig = new ThemeConfiguration(__DIR__, '');
         $files       = m::mock(\Illuminate\Filesystem\Filesystem::class);
         $paths       = [__DIR__];
         return new ThemeViewFinder($themeConfig, $files, $paths);

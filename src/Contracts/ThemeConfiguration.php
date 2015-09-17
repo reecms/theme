@@ -30,26 +30,26 @@ interface ThemeConfiguration
      * 
      * @return string
      */
-    public function getThemeViewDir();
+    public function getThemeViewDir($theme = null);
 
     /**
      * Get the path to the directory contains theme asset files
      * 
      * @return string
      */
-    public function getThemeAssetDir();
+    public function getThemeAssetDir($theme = null);
 
     /**
      * Get the path to the directory contains theme compiled asset files
      * 
      * @return string
      */
-    public function getThemePublicDir();
+    public function getThemePublicDir($theme = null);
 
     /**
      * Get the default location of theme view
      * 
      * @return string
      */
-    public function getDefaultThemeViewDir();
+    public function getDefaultTheme();
 }

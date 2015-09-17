@@ -20,64 +20,75 @@ class ThemeConfigurationTest extends PHPUnit_Framework_TestCase
 
     public function testReceiveCorrectViewName()
     {
-        $config = new ThemeConfiguration('', '', '');
+        $config = new ThemeConfiguration('', '');
         $this->assertEquals(null, $config->getThemeName());
     }
 
     public function testThemeNameIsSet()
     {
-        $config = new ThemeConfiguration('', '', '');
+        $config = new ThemeConfiguration('', '');
         $config->setThemeName('default');
         $this->assertEquals('default', $config->getThemeName());
     }
 
     public function testGetCorrectThemeViewDir()
     {
-        $config = new ThemeConfiguration('/resources/views/themes/', '', '');
+        $config = new ThemeConfiguration('/resources/views/themes/', '');
         $config->setThemeName('default');
-        $this->assertEquals('/resources/views/themes/default', $config->getThemeViewDir());
+        $this->assertEquals('/resources/views/themes/default/views', $config->getThemeViewDir());
+        $this->assertEquals('/resources/views/themes/foo/views', $config->getThemeViewDir('foo'));
     }
 
     public function testGetCorrectThemeViewDirNoSlash()
     {
-        $config = new ThemeConfiguration('/resources/views/themes', '', '');
+        $config = new ThemeConfiguration('/resources/views/themes', '');
         $config->setThemeName('default');
-        $this->assertEquals('/resources/views/themes/default', $config->getThemeViewDir());
+        $this->assertEquals('/resources/views/themes/default/views', $config->getThemeViewDir());
+        $this->assertEquals('/resources/views/themes/foo/views', $config->getThemeViewDir('foo'));
     }
 
     public function testGetCorrectThemeAssetDir()
     {
-        $config = new ThemeConfiguration('', '/resources/assets/themes/', '');
+        $config = new ThemeConfiguration('/resources/assets/themes/', '');
         $config->setThemeName('default');
-        $this->assertEquals('/resources/assets/themes/default', $config->getThemeAssetDir());
+        $this->assertEquals('/resources/assets/themes/default/assets', $config->getThemeAssetDir());
+        $this->assertEquals('/resources/assets/themes/foo/assets', $config->getThemeAssetDir('foo'));
     }
 
     public function testGetCorrectThemeAssetDirNoSlash()
     {
-        $config = new ThemeConfiguration('', '/resources/assets/themes', '');
+        $config = new ThemeConfiguration('/resources/assets/themes', '');
         $config->setThemeName('default');
-        $this->assertEquals('/resources/assets/themes/default', $config->getThemeAssetDir());
+        $this->assertEquals('/resources/assets/themes/default/assets', $config->getThemeAssetDir());
     }
 
     public function testGetCorrectThemePublicDir()
     {
-        $config = new ThemeConfiguration('', '', '/public/assets/themes/');
+        $config = new ThemeConfiguration('', '/public/assets/themes/');
         $config->setThemeName('default');
         $this->assertEquals('/public/assets/themes/default', $config->getThemePublicDir());
+        $this->assertEquals('/public/assets/themes/foo', $config->getThemePublicDir('foo'));
     }
 
     public function testGetCorrectThemePublicDirNoSlash()
     {
-        $config = new ThemeConfiguration('', '', '/public/assets/themes');
+        $config = new ThemeConfiguration('', '/public/assets/themes');
         $config->setThemeName('default');
         $this->assertEquals('/public/assets/themes/default', $config->getThemePublicDir());
     }
 
-    public function testGetDefaultViewDir()
+    public function testGetThemeDir()
     {
-        $config = new ThemeConfiguration('/resources/views/themes/', '', '');
+        $config = new ThemeConfiguration('/resources/views/themes/', '');
+        $config->setThemeName('default');
+        $this->assertEquals('/resources/views/themes/default', $config->getThemeDir());
+        $this->assertEquals('/resources/views/themes/foo', $config->getThemeDir('foo'));
+    }
+
+    public function testGetDefaultTheme()
+    {
+        $config = new ThemeConfiguration('/resources/views/themes/', '');
         $config->setThemeName('foo');
-        $this->assertEquals('/resources/views/themes/foo', $config->getThemeViewDir());
-        $this->assertEquals('/resources/views/themes/default', $config->getDefaultThemeViewDir());
+        $this->assertEquals('default', $config->getDefaultTheme());
     }
 }
