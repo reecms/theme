@@ -59,12 +59,12 @@ class ThemeCreateCommand extends Command
     {
         $theme = snake_case($this->argument('name'));
         $this->output->writeln("Theme dir name: <info>($theme)</info>");
-
+        
         if ($this->finder->doesThemeExist($theme)) {
             $this->error('Theme folder exists.');
             return false;
         }
-
+        
         $themeViewDir = $this->finder->getThemeConfig()->getThemeViewDir($theme);
         $this->files->makeDirectory($themeViewDir, 0755, true);
         $this->output->writeln("Creating theme views directory : <info>{$themeViewDir}</info>");
