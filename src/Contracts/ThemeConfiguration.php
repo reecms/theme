@@ -45,4 +45,11 @@ interface ThemeConfiguration
      * @return string
      */
     public function getThemePublicDir();
+
+    /**
+     * Get the default location of theme view
+     * 
+     * @return string
+     */
+    public function getDefaultThemeViewDir();
 }

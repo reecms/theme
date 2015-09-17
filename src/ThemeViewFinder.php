@@ -2,7 +2,6 @@
 
 namespace Ree\Theme;
 
-use InvalidArgumentException;
 use Illuminate\View\FileViewFinder;
 use Illuminate\Filesystem\Filesystem;
 use Ree\Theme\Contracts\ThemeConfiguration as ThemeConfigContract;
@@ -56,12 +55,11 @@ class ThemeViewFinder extends FileViewFinder
         }
 
         if ($this->themeConfig->getThemeName()) {
-            try {
-                $dirs               = [$this->themeConfig->getThemeViewDir()];
-                return $this->views[$name] = $this->findInPaths($name, $dirs);
-            } catch (InvalidArgumentException $_) {
-                return $this->views[$name] = $this->findInPaths($name, $this->paths);
-            }
+            $dirs               = [
+                $this->themeConfig->getThemeViewDir(),
+                $this->themeConfig->getDefaultThemeViewDir()
+            ];
+            return $this->views[$name] = $this->findInPaths($name, $dirs);
         }
 
         return $this->views[$name] = $this->findInPaths($name, $this->paths);

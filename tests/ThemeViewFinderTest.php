@@ -171,13 +171,13 @@ class ThemeViewFinderTest extends \PHPUnit_Framework_TestCase
     public function testFallbackToDefaultViewLocation()
     {
         $finder = $this->getFinder();
-        $finder->getFilesystem()->shouldReceive('exists')->once()->with(__DIR__ . '/default/foo.blade.php')->andReturn(false);
-        $finder->getFilesystem()->shouldReceive('exists')->once()->with(__DIR__ . '/default/foo.php')->andReturn(false);
-        $finder->getFilesystem()->shouldReceive('exists')->once()->with(__DIR__ . '/foo.blade.php')->andReturn(true);
+        $finder->getFilesystem()->shouldReceive('exists')->once()->with(__DIR__ . '/foo/foo.blade.php')->andReturn(false);
+        $finder->getFilesystem()->shouldReceive('exists')->once()->with(__DIR__ . '/foo/foo.php')->andReturn(false);
+        $finder->getFilesystem()->shouldReceive('exists')->once()->with(__DIR__ . '/default/foo.blade.php')->andReturn(true);
 
-        $finder->getThemeConfig()->setThemeName('default');
+        $finder->getThemeConfig()->setThemeName('foo');
 
-        $this->assertEquals(__DIR__ . '/foo.blade.php', $finder->find('foo'));
+        $this->assertEquals(__DIR__ . '/default/foo.blade.php', $finder->find('foo'));
     }
 
     /**
@@ -186,14 +186,24 @@ class ThemeViewFinderTest extends \PHPUnit_Framework_TestCase
     public function testViewNotFoundInTheme()
     {
         $finder = $this->getFinder();
+        $finder->getFilesystem()->shouldReceive('exists')->once()->with(__DIR__ . '/foo/foo.blade.php')->andReturn(false);
+        $finder->getFilesystem()->shouldReceive('exists')->once()->with(__DIR__ . '/foo/foo.php')->andReturn(false);
         $finder->getFilesystem()->shouldReceive('exists')->once()->with(__DIR__ . '/default/foo.blade.php')->andReturn(false);
         $finder->getFilesystem()->shouldReceive('exists')->once()->with(__DIR__ . '/default/foo.php')->andReturn(false);
-        $finder->getFilesystem()->shouldReceive('exists')->once()->with(__DIR__ . '/foo.blade.php')->andReturn(false);
-        $finder->getFilesystem()->shouldReceive('exists')->once()->with(__DIR__ . '/foo.php')->andReturn(false);
 
-        $finder->getThemeConfig()->setThemeName('default');
-        
+        $finder->getThemeConfig()->setThemeName('foo');
+
         $finder->find('foo');
+    }
+
+    public function testIgnoreDefaultDirIfThemeNameIsDefault()
+    {
+        $finder = $this->getFinder();
+        $finder->getFilesystem()->shouldReceive('exists')->once()->with(__DIR__ . '/default/foo.blade.php')->andReturn(true);
+        
+        $finder->getThemeConfig()->setThemeName('default');
+
+        $this->assertEquals(__DIR__ . '/default/foo.blade.php', $finder->find('foo'));
     }
 
     protected function getFinder()

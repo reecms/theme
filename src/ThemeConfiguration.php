@@ -110,4 +110,9 @@ class ThemeConfiguration implements ThemeConfigurationContract
     {
         return $this->baseViewDir . $this->theme;
     }
+    
+    public function getDefaultThemeViewDir()
+    {
+        return $this->baseViewDir . 'default';
+    }
 }

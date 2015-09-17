@@ -72,4 +72,12 @@ class ThemeConfigurationTest extends PHPUnit_Framework_TestCase
         $config->setThemeName('default');
         $this->assertEquals('/public/assets/themes/default', $config->getThemePublicDir());
     }
+
+    public function testGetDefaultViewDir()
+    {
+        $config = new ThemeConfiguration('/resources/views/themes/', '', '');
+        $config->setThemeName('foo');
+        $this->assertEquals('/resources/views/themes/foo', $config->getThemeViewDir());
+        $this->assertEquals('/resources/views/themes/default', $config->getDefaultThemeViewDir());
+    }
 }
