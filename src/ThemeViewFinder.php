@@ -64,4 +64,16 @@ class ThemeViewFinder extends FileViewFinder
 
         return $this->views[$name] = $this->findInPaths($name, $this->paths);
     }
+
+    /**
+     * Check the theme folder existence
+     * 
+     * @param string $theme
+     * 
+     * @return bool
+     */
+    public function doesThemeExist($theme)
+    {
+        return $this->files->exists($this->themeConfig->getThemeDir($theme));
+    }
 }
